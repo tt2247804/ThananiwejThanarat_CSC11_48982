@@ -37,10 +37,10 @@ number_read2: .word 0
 number_read3: .word 0
 
 .balign 4
-number_read4: .word 128
+number_read4: .word 0
 
 .balign 4
-number_read5: .word 128
+number_read5: .word 0
 
 .balign 4
 return1: .word 0
@@ -51,9 +51,6 @@ return2: .word 0
 .text
 
 problem1:
-	@ldr r1, address_of_return2
-	@str lr, [r1]
-
 	ldr r0, address_of_message4
 	bl printf
 
@@ -81,9 +78,6 @@ loop1:
 	cmp r6, r5
 	ble loop1
 
-	@ldr lr, address_of_return2
-	@ldr lr, [r1]
-	@bx lr
 	bal end
 
 address_of_message4: .word message4
@@ -93,9 +87,6 @@ address_of_return2: .word return2
 address_of_number_read4: .word number_read4
 
 problem2:
-        @ldr r1, address_of_return2
-        @str lr, [r1]
-
         ldr r0, address_of_message4
         bl printf
 
@@ -124,15 +115,8 @@ loop2:
         cmp r4, r5
         ble loop2
 
-        @ldr lr, address_of_return2
-        @ldr lr, [r1]
-        @bx lr
         bal end
 
-@address_of_message4: .word message4
-@address_of_message5: .word message5
-@address_of_message6: .word message6
-@address_of_return2: .word return2
 address_of_number_read5: .word number_read5
 
 
