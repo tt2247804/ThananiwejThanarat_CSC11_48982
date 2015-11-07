@@ -37,6 +37,9 @@ m11: .asciz "Please enter your move: "
 m12: .asciz "Play %d wins!\n"
 
 .balign 4
+m13: .asciz "Invalid move!\n\n"
+
+.balign 4
 scan: .asciz "%c"
 
 .balign 4
@@ -381,11 +384,10 @@ position8_o:
         str r11, [r3]
 
         bal drawXOBoard
-
-
 invalid:
-	bal end
-
+	ldr r0, ad_m13
+        bl printf
+	bal play
 
 win:
 	ldr r0, ad_m12
@@ -399,6 +401,7 @@ ad_m9: .word m9
 ad_m10: .word m10
 ad_m11: .word m11
 ad_m12: .word m12
+ad_m13: .word m13
 ad_scan: .word scan
 ad_scan1: .word scan1
 ad_read: .word read
