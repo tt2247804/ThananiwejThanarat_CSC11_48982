@@ -58,9 +58,6 @@ str3: .word 0
 str4: .word 0
 
 .balign 4
-str5: .word 0
-
-.balign 4
 return: .word 0
 
 .text
@@ -227,62 +224,64 @@ store:
 	ldr r2, ad_str3
         ldr r2, [r2]
 	cmp r2, #1
-	beq mark
-mark:
+	beq start_x
+	cmp r2, #2
+	beq start_o
+start_x:
 	cmp r0, #1
-	bne position1
+	bne position1_x
 	cmp r4, #49
 	bne invalid
 	mov r4, #120
 	bal drawXOBoard
-position1:
+position1_x:
 	cmp r0, #2
-        bne position2
+        bne position2_x
         cmp r5, #50
         bne invalid
         mov r5, #120
 	bal drawXOBoard
-position2:
+position2_x:
 	cmp r0, #3
-        bne position3
+        bne position3_x
         cmp r6, #51
         bne invalid
         mov r6, #120
 	bal drawXOBoard
-position3:
+position3_x:
 	cmp r0, #4
-        bne position4
+        bne position4_x
         cmp r7, #52
         bne invalid
         mov r7, #120
 	bal drawXOBoard
-position4:
+position4_x:
 	cmp r0, #5
-        bne position5
+        bne position5_x
         cmp r8, #53
         bne invalid
         mov r8, #120
 	bal drawXOBoard
-position5:
+position5_x:
 	cmp r0, #6
-        bne position6
+        bne position6_x
         cmp r9, #54
         bne invalid
         mov r9, #120
 	bal drawXOBoard
-position6:
+position6_x:
 	cmp r0, #7
-        bne position7
+        bne position7_x
         cmp r10, #55
         bne invalid
         mov r10, #120
 	bal drawXOBoard
-position7:
+position7_x:
 	ldr r11, ad_str1
         ldr r11, [r11]
 
 	cmp r0, #8
-        bne position8
+        bne position8_x
         cmp r11, #56
         bne invalid
 
@@ -291,7 +290,7 @@ position7:
         str r11, [r3]
 
 	bal drawXOBoard
-position8:
+position8_x:
         ldr r11, ad_str2
         ldr r11, [r11]
 
@@ -305,6 +304,85 @@ position8:
 	str r11, [r3]
 
 	bal drawXOBoard
+start_o:
+        cmp r0, #1
+        bne position1_o
+        cmp r4, #49
+        bne invalid
+        mov r4, #111
+        bal drawXOBoard
+position1_o:
+        cmp r0, #2
+        bne position2_o
+        cmp r5, #50
+        bne invalid
+        mov r5, #111
+        bal drawXOBoard
+position2_o:
+        cmp r0, #3
+        bne position3_o
+        cmp r6, #51
+        bne invalid
+        mov r6, #111
+        bal drawXOBoard
+position3_o:
+        cmp r0, #4
+        bne position4_o
+        cmp r7, #52
+        bne invalid
+        mov r7, #111
+        bal drawXOBoard
+position4_o:
+        cmp r0, #5
+        bne position5_o
+        cmp r8, #53
+        bne invalid
+        mov r8, #111
+        bal drawXOBoard
+position5_o:
+        cmp r0, #6
+        bne position6_o
+        cmp r9, #54
+        bne invalid
+        mov r9, #111
+        bal drawXOBoard
+position6_o:
+        cmp r0, #7
+        bne position7_o
+        cmp r10, #55
+        bne invalid
+        mov r10, #111
+        bal drawXOBoard
+position7_o:
+        ldr r11, ad_str1
+        ldr r11, [r11]
+
+        cmp r0, #8
+        bne position8_o
+        cmp r11, #56
+        bne invalid
+
+        mov r11, #111
+        ldr r3, ad_str1
+        str r11, [r3]
+
+        bal drawXOBoard
+position8_o:
+        ldr r11, ad_str2
+        ldr r11, [r11]
+
+        cmp r0, #9
+        bne invalid
+        cmp r11, #57
+        bne invalid
+
+        mov r11, #111
+        ldr r3, ad_str2
+        str r11, [r3]
+
+        bal drawXOBoard
+
+
 invalid:
 	bal end
 
@@ -328,7 +406,6 @@ ad_str1: .word str1
 ad_str2: .word str2
 ad_str3: .word str3
 ad_str4: .word str4
-ad_str5: .word str5
 ad_return: .word return
 
 .global printf
