@@ -34,10 +34,13 @@ m10: .asciz "Player 2 = o.\n\n"
 m11: .asciz "Please enter your move: "
 
 .balign 4
-m12: .asciz "Play %d wins!\n"
+m12: .asciz "Player %d wins!\n"
 
 .balign 4
 m13: .asciz "Invalid move!\n\n"
+
+.balign 4
+m14: .asciz "It is a draw!\n"
 
 .balign 4
 scan: .asciz "%c"
@@ -101,6 +104,10 @@ drawXOBoard:
         ldr r0, ad_m8
         bl printf
 
+	cmp r11, #99
+	beq check
+	cmp r11, #98
+	beq check1
 	bal play
 
 ad_m1: .word m1
@@ -162,6 +169,8 @@ true:
 	mov r1, #1
 	bal paint
 false:
+	cmp r11, #97
+	beq draw1
 	mov r1, #0
 	bal paint
 
@@ -236,49 +245,49 @@ start_x:
 	cmp r4, #49
 	bne invalid
 	mov r4, #120
-	bal drawXOBoard
+	bal draw
 position1_x:
 	cmp r0, #2
         bne position2_x
         cmp r5, #50
         bne invalid
         mov r5, #120
-	bal drawXOBoard
+	bal draw
 position2_x:
 	cmp r0, #3
         bne position3_x
         cmp r6, #51
         bne invalid
         mov r6, #120
-	bal drawXOBoard
+	bal draw
 position3_x:
 	cmp r0, #4
         bne position4_x
         cmp r7, #52
         bne invalid
         mov r7, #120
-	bal drawXOBoard
+	bal draw
 position4_x:
 	cmp r0, #5
         bne position5_x
         cmp r8, #53
         bne invalid
         mov r8, #120
-	bal drawXOBoard
+	bal draw
 position5_x:
 	cmp r0, #6
         bne position6_x
         cmp r9, #54
         bne invalid
         mov r9, #120
-	bal drawXOBoard
+	bal draw
 position6_x:
 	cmp r0, #7
         bne position7_x
         cmp r10, #55
         bne invalid
         mov r10, #120
-	bal drawXOBoard
+	bal draw
 position7_x:
 	ldr r11, ad_str1
         ldr r11, [r11]
@@ -292,7 +301,7 @@ position7_x:
         ldr r3, ad_str1
         str r11, [r3]
 
-	bal drawXOBoard
+	bal draw
 position8_x:
         ldr r11, ad_str2
         ldr r11, [r11]
@@ -306,56 +315,56 @@ position8_x:
 	ldr r3, ad_str2
 	str r11, [r3]
 
-	bal drawXOBoard
+	bal draw
 start_o:
         cmp r0, #1
         bne position1_o
         cmp r4, #49
         bne invalid
         mov r4, #111
-        bal drawXOBoard
+        bal draw
 position1_o:
         cmp r0, #2
         bne position2_o
         cmp r5, #50
         bne invalid
         mov r5, #111
-        bal drawXOBoard
+        bal draw
 position2_o:
         cmp r0, #3
         bne position3_o
         cmp r6, #51
         bne invalid
         mov r6, #111
-        bal drawXOBoard
+        bal draw
 position3_o:
         cmp r0, #4
         bne position4_o
         cmp r7, #52
         bne invalid
         mov r7, #111
-        bal drawXOBoard
+        bal draw
 position4_o:
         cmp r0, #5
         bne position5_o
         cmp r8, #53
         bne invalid
         mov r8, #111
-        bal drawXOBoard
+        bal draw
 position5_o:
         cmp r0, #6
         bne position6_o
         cmp r9, #54
         bne invalid
         mov r9, #111
-        bal drawXOBoard
+        bal draw
 position6_o:
         cmp r0, #7
         bne position7_o
         cmp r10, #55
         bne invalid
         mov r10, #111
-        bal drawXOBoard
+        bal draw
 position7_o:
         ldr r11, ad_str1
         ldr r11, [r11]
@@ -369,7 +378,7 @@ position7_o:
         ldr r3, ad_str1
         str r11, [r3]
 
-        bal drawXOBoard
+        bal draw
 position8_o:
         ldr r11, ad_str2
         ldr r11, [r11]
@@ -383,14 +392,56 @@ position8_o:
         ldr r3, ad_str2
         str r11, [r3]
 
-        bal drawXOBoard
+        bal draw
+draw:
+	ldr r11, ad_str4
+	ldr r11, [r11]
+	add r11, r11, #1
+	ldr r3, ad_str4
+	str r11, [r3]
+	cmp r11, #9
+	bne checkWin
+	mov r11, #97
+	bal checkWin
+draw1:
+	mov r11, #98
+	bal drawXOBoard
+check1:
+	ldr r0, ad_m14
+        bl printf
+
+	bal end
 invalid:
 	ldr r0, ad_m13
         bl printf
-	bal play
+
+	ldr r3, ad_str4
+	ldr r3, [r3]
+	sub r3, r3, #1
+	ldr r2, ad_str4
+	str r3, [r2]
+
+        ldr r2, ad_str3
+        ldr r2, [r2]
+        cmp r2, #1
+        beq switch1
+        mov r2, #1
+        bal store1
+switch1:
+        mov r2, #2
+store1:
+        ldr r1, ad_str3
+        str r2, [r1]
+
+	bal draw
 
 win:
+	mov r11, #99
+	bal drawXOBoard
+check:
 	ldr r0, ad_m12
+	ldr r1, ad_str3
+	ldr r1, [r1]
         bl printf
 end:
         ldr lr, ad_return
@@ -402,6 +453,7 @@ ad_m10: .word m10
 ad_m11: .word m11
 ad_m12: .word m12
 ad_m13: .word m13
+ad_m14: .word m14
 ad_scan: .word scan
 ad_scan1: .word scan1
 ad_read: .word read
