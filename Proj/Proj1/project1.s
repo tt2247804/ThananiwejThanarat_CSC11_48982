@@ -206,13 +206,13 @@ main:
 	mov r11, #57
 	ldr r1, ad_str2
 	str r11, [r1]
-	mov r1, #0	/*Turn*/
+	mov r1, #0
 paint:
 	cmp r1, #1
 	beq win
 	bal drawXOBoard
 play:
-	ldr r2, ad_str3
+	ldr r2, ad_str3		/*Turn*/
 	ldr r2, [r2]
 	cmp r2, #1
 	beq switch
@@ -231,7 +231,7 @@ store:
         ldr r1, ad_read
         bl scanf
         ldr r0, ad_read
-        ldr r0, [r0]	/*Position*/
+        ldr r0, [r0]		/*Position*/
 
 	ldr r2, ad_str3
         ldr r2, [r2]
