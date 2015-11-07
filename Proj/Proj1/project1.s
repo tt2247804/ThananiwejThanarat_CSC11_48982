@@ -58,6 +58,9 @@ str3: .word 0
 str4: .word 0
 
 .balign 4
+str5: .word 0
+
+.balign 4
 return: .word 0
 
 .text
@@ -194,7 +197,7 @@ main:
 	mov r11, #57
 	ldr r1, ad_str2
 	str r11, [r1]
-	mov r1, #0
+	mov r1, #0	/*Turn*/
 paint:
 	cmp r1, #1
 	beq win
@@ -219,7 +222,7 @@ store:
         ldr r1, ad_read
         bl scanf
         ldr r0, ad_read
-        ldr r0, [r0]
+        ldr r0, [r0]	/*Position*/
 
 	ldr r2, ad_str3
         ldr r2, [r2]
@@ -231,54 +234,77 @@ mark:
 	cmp r4, #49
 	bne invalid
 	mov r4, #120
+	bal drawXOBoard
 position1:
 	cmp r0, #2
         bne position2
-        cmp r4, #50
+        cmp r5, #50
         bne invalid
-        mov r4, #120
+        mov r5, #120
+	bal drawXOBoard
 position2:
 	cmp r0, #3
         bne position3
-        cmp r4, #51
+        cmp r6, #51
         bne invalid
-        mov r4, #120
+        mov r6, #120
+	bal drawXOBoard
 position3:
 	cmp r0, #4
         bne position4
-        cmp r4, #52
+        cmp r7, #52
         bne invalid
-        mov r4, #120
+        mov r7, #120
+	bal drawXOBoard
 position4:
 	cmp r0, #5
         bne position5
-        cmp r4, #53
+        cmp r8, #53
         bne invalid
-        mov r4, #120
+        mov r8, #120
+	bal drawXOBoard
 position5:
 	cmp r0, #6
         bne position6
-        cmp r4, #54
+        cmp r9, #54
         bne invalid
-        mov r4, #120
+        mov r9, #120
+	bal drawXOBoard
 position6:
 	cmp r0, #7
         bne position7
-        cmp r4, #55
+        cmp r10, #55
         bne invalid
-        mov r4, #120
+        mov r10, #120
+	bal drawXOBoard
 position7:
+	ldr r11, ad_str1
+        ldr r11, [r11]
+
 	cmp r0, #8
         bne position8
-        cmp r4, #56
+        cmp r11, #56
         bne invalid
-        mov r4, #120
+
+	mov r11, #120
+        ldr r3, ad_str1
+        str r11, [r3]
+
+	bal drawXOBoard
 position8:
+        ldr r11, ad_str2
+        ldr r11, [r11]
+
 	cmp r0, #9
         bne invalid
-        cmp r4, #49
+        cmp r11, #57
         bne invalid
-        mov r4, #120
+
+	mov r11, #120
+	ldr r3, ad_str2
+	str r11, [r3]
+
+	bal drawXOBoard
 invalid:
 	bal end
 
@@ -302,6 +328,7 @@ ad_str1: .word str1
 ad_str2: .word str2
 ad_str3: .word str3
 ad_str4: .word str4
+ad_str5: .word str5
 ad_return: .word return
 
 .global printf
