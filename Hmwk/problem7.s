@@ -104,7 +104,7 @@ break:
 
 	ldr r0, ad_m3
 	mov r1, r4
-	@bl printf
+	bl printf
 
         ldr lr, ad_return
         ldr lr, [lr]

@@ -83,7 +83,7 @@ break:
 
 	ldr r0, ad_m3
 	mov r1, r6
-	@bl printf
+	bl printf
 
 	ldr lr, ad_return
 	ldr lr, [lr]
